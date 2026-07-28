@@ -1,194 +1,430 @@
 ﻿<!DOCTYPE html>
-<html lang="zh-Hant-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學員作品集 | Vibe Coding 前端網頁開發班</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>運動預約系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --bg-color: #0d0f14;
-            --card-bg: rgba(25, 28, 36, 0.6);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --text-primary: #f3f4f6;
-            --text-secondary: #9ca3af;
-            --accent-glow: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-        }
+      :root {
+        color-scheme: dark;
+      }
 
-        body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
+      body {
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top left, rgba(16, 185, 129, 0.16), transparent 24%),
+          radial-gradient(circle at top right, rgba(6, 182, 212, 0.18), transparent 28%),
+          linear-gradient(135deg, #020617 0%, #0f172a 45%, #020617 100%);
+        color: #e2e8f0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
 
-        body::before {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: var(--accent-glow);
-            filter: blur(150px);
-            opacity: 0.15;
-            top: 20%;
-            left: 30%;
-            z-index: 0;
-        }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          radial-gradient(circle, rgba(255,255,255,0.22) 1px, transparent 1px),
+          radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px);
+        background-size: 160px 160px, 240px 240px;
+        background-position: 0 0, 80px 80px;
+        opacity: 0.12;
+        pointer-events: none;
+      }
 
-        body::after {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: var(--accent-glow);
-            filter: blur(150px);
-            opacity: 0.15;
-            bottom: 20%;
-            right: 30%;
-            z-index: 0;
-        }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 18px 45px rgba(0, 0, 0, 0.35);
+      }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 3rem;
-            border-radius: 24px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
+      .neon-input,
+      .neon-btn,
+      .neon-select,
+      .neon-textarea {
+        transition: all 0.25s ease;
+      }
 
-        .badge {
-            display: inline-block;
-            background: var(--accent-glow);
-            color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 99px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
+      .neon-input:focus,
+      .neon-select:focus,
+      .neon-textarea:focus,
+      .neon-btn:hover,
+      .neon-btn:focus-visible {
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 0 18px rgba(34, 211, 238, 0.36), 0 0 36px rgba(16, 185, 129, 0.3);
+        border-color: rgba(100, 255, 214, 0.4);
+        transform: translateY(-1px);
+      }
 
-        h1 {
-            font-size: 2.2rem;
-            margin: 0 0 1rem 0;
-            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        }
+      .neon-btn {
+        position: relative;
+        overflow: hidden;
+      }
 
-        .student-info {
-            font-size: 1.2rem;
-            color: #818cf8;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
+      .neon-btn::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.55s ease;
+      }
 
-        p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
-        }
+      .neon-btn:hover::after {
+        transform: translateX(100%);
+      }
 
-        .loader {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 2.5rem;
-        }
+      .card-float {
+        animation: float 6.4s ease-in-out infinite;
+      }
 
-        .dot {
-            width: 12px;
-            height: 12px;
-            background: var(--accent-glow);
-            border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
+      .table-float {
+        animation: float 7.2s ease-in-out infinite reverse;
+      }
 
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
+      .badge-glow {
+        box-shadow: 0 0 18px rgba(34, 211, 238, 0.28);
+      }
 
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
-        }
+      .spinner {
+        width: 42px;
+        height: 42px;
+        border-radius: 9999px;
+        border: 3px solid rgba(255,255,255,0.15);
+        border-top-color: #34d399;
+        border-right-color: #22d3ee;
+        animation: spin 1s linear infinite;
+        box-shadow: 0 0 24px rgba(52, 211, 153, 0.35);
+      }
 
-        .back-btn {
-            display: inline-block;
-            text-decoration: none;
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.03);
-            padding: 0.8rem 2rem;
-            border-radius: 12px;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+      .loader-line {
+        position: relative;
+        overflow: hidden;
+      }
 
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      .loader-line::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.24), transparent);
+        animation: shimmer 1.2s linear infinite;
+      }
+
+      .toast {
+        opacity: 0;
+        transform: translateY(16px);
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
         }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes shimmer {
+        to {
+          transform: translateX(100%);
+        }
+      }
     </style>
-</head>
-<body>
-    <div class="container">
-        <div class="badge">COMING SOON</div>
-        <h1 id="project-title">作品開發中</h1>
-        <div class="student-info" id="student-name">學員：載入中...</div>
-        <p>這位學員正在努力運用所學的前端技術，精心打造個人作品中。敬請期待！</p>
-        
-        <div class="loader">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+  </head>
+  <body class="relative overflow-x-hidden">
+    <div class="absolute inset-0 pointer-events-none opacity-80">
+      <div class="absolute left-[-8%] top-[-10%] h-72 w-72 rounded-full bg-emerald-400/20 blur-3xl"></div>
+      <div class="absolute right-[-6%] top-8 h-80 w-80 rounded-full bg-cyan-400/20 blur-3xl"></div>
+    </div>
+
+    <main class="relative z-10 mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
+      <header class="glass-card card-float rounded-[28px] border border-white/10 p-6 sm:p-8">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p class="mb-3 inline-flex items-center rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-sm font-medium text-cyan-200">
+              Antigravity • Motion Booking
+            </p>
+            <h1 class="text-3xl font-semibold tracking-[0.2em] text-slate-50 sm:text-4xl">
+              運動預約系統
+            </h1>
+            <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
+              在宇宙般的霓虹氛圍中，快速建立預約，並即時同步到 Google Apps Script 的 orders 資料表。
+            </p>
+          </div>
+          <div class="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100">
+            <div class="font-semibold">API 端點</div>
+            <div class="mt-1 break-all text-[11px] text-emerald-200/90">${API_URL}</div>
+          </div>
+        </div>
+      </header>
+
+      <section class="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+        <div class="glass-card card-float rounded-[28px] border border-white/10 p-5 sm:p-6">
+          <div class="mb-5 flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-semibold text-slate-50">新增預約</h2>
+              <p class="mt-1 text-sm text-slate-400">提交後將自動刷新右側預約列表。</p>
+            </div>
+            <div class="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-slate-200">
+              POST
+            </div>
+          </div>
+
+          <form id="coachForm" class="space-y-4">
+            <div class="grid gap-4 sm:grid-cols-2">
+              <label class="block">
+                <span class="mb-2 block text-sm text-slate-300">使用者名字</span>
+                <input
+                  class="neon-input neon-textarea w-full rounded-2xl border border-white/10 bg-slate-900/70 px-4 py-3 text-sm text-slate-100 outline-none"
+                  name="userName"
+                  placeholder="例如：Alice Wang"
+                  required
+                />
+              </label>
+              <label class="block">
+                <span class="mb-2 block text-sm text-slate-300">教練名字</span>
+                <input
+                  class="neon-input neon-textarea w-full rounded-2xl border border-white/10 bg-slate-900/70 px-4 py-3 text-sm text-slate-100 outline-none"
+                  name="coachName"
+                  placeholder="例如：Mina Chen"
+                  required
+                />
+              </label>
+            </div>
+
+            <label class="block">
+              <span class="mb-2 block text-sm text-slate-300">備註</span>
+              <textarea
+                class="neon-input neon-textarea min-h-[108px] w-full rounded-2xl border border-white/10 bg-slate-900/70 px-4 py-3 text-sm text-slate-100 outline-none"
+                name="note"
+                placeholder="輸入預約時間、需求或其他說明"
+              ></textarea>
+            </label>
+
+            <button
+              id="submitBtn"
+              type="submit"
+              class="neon-btn inline-flex w-full items-center justify-center rounded-2xl border border-emerald-400/30 bg-gradient-to-r from-emerald-500/20 via-cyan-400/20 to-emerald-500/20 px-4 py-3 text-sm font-semibold text-emerald-100 shadow-[0_0_24px_rgba(16,185,129,0.16)]"
+            >
+              <span id="submitBtnText">建立預約</span>
+            </button>
+          </form>
         </div>
 
-        <a href="../index.html" class="back-btn">返回作品展示首頁</a>
+        <div class="glass-card table-float rounded-[28px] border border-white/10 p-5 sm:p-6">
+          <div class="mb-4 flex items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-semibold text-slate-50">即時預約清單</h2>
+              <p class="mt-1 text-sm text-slate-400">透過 GET 讀取 orders 資料並動態渲染。</p>
+            </div>
+            <div class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-cyan-100">
+              GET
+            </div>
+          </div>
+
+          <div id="tableLoading" class="loader-line rounded-2xl border border-white/10 bg-slate-900/40 p-6">
+            <div class="flex items-center justify-center gap-3 text-slate-300">
+              <div class="spinner"></div>
+              <span class="text-sm tracking-[0.2em] text-slate-200">正在同步預約資料…</span>
+            </div>
+          </div>
+
+          <div id="tableWrap" class="hidden overflow-x-auto">
+            <table class="min-w-full border-separate border-spacing-y-2 text-left text-sm text-slate-200">
+              <thead>
+                <tr class="text-slate-400">
+                  <th class="px-3 py-2 font-medium">使用者</th>
+                  <th class="px-3 py-2 font-medium">教練</th>
+                  <th class="px-3 py-2 font-medium">預約時間</th>
+                  <th class="px-3 py-2 font-medium">備註</th>
+                  <th class="px-3 py-2 font-medium">狀態</th>
+                </tr>
+              </thead>
+              <tbody id="coachTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast fixed bottom-6 right-6 z-50 rounded-2xl border border-emerald-400/30 bg-slate-900/85 px-4 py-3 text-sm text-emerald-100 shadow-[0_0_28px_rgba(16,185,129,0.2)]">
+      資料已成功同步。
     </div>
 
     <script>
-        fetch('./portfolio.json')
-            .then(res => res.json())
-            .then(data => {
-                if (data.studentName) {
-                    document.getElementById('student-name').textContent = "學員：" + data.studentName;
-                }
-                if (data.projectName && data.isReady) {
-                    document.getElementById('project-title').textContent = data.projectName;
-                }
-            })
-            .catch(() => {
-                const pathParts = window.location.pathname.split('/');
-                const currentFolder = decodeURIComponent(pathParts[pathParts.length - 2] || '');
-                if (currentFolder && currentFolder.includes('_')) {
-                    const name = currentFolder.split('_')[1];
-                    document.getElementById('student-name').textContent = "學員：" + name;
-                } else {
-                    document.getElementById('student-name').textContent = "學員";
-                }
-            });
+      const API_URL = "https://script.google.com/macros/s/AKfycbyx-1nXv-aicDKUHZ3qNBs39GutJpecFdTgDRAG8WgO1oWz3ZtYrkfknh-Ylexto6gt/exec";
+
+      const form = document.getElementById("coachForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const submitBtnText = document.getElementById("submitBtnText");
+      const tableLoading = document.getElementById("tableLoading");
+      const tableWrap = document.getElementById("tableWrap");
+      const coachTableBody = document.getElementById("coachTableBody");
+      const toast = document.getElementById("toast");
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => toast.classList.remove("show"), 2600);
+      }
+
+      function setLoadingState(isLoading) {
+        submitBtn.disabled = isLoading;
+        submitBtnText.textContent = isLoading ? "正在建立預約..." : "建立預約";
+        submitBtn.classList.toggle("opacity-70", isLoading);
+      }
+
+      function renderCoaches(data) {
+        const records = Array.isArray(data) ? data : data?.records ?? data?.data ?? [];
+        coachTableBody.innerHTML = "";
+
+        if (!records.length) {
+          coachTableBody.innerHTML = `
+            <tr>
+              <td colspan="5" class="px-3 py-5 text-center text-slate-400">
+                還沒有預約，先新增一筆吧。
+              </td>
+            </tr>
+          `;
+          tableLoading.classList.add("hidden");
+          tableWrap.classList.remove("hidden");
+          return;
+        }
+
+        const rows = records.map((order, index) => {
+          const userName = order.userName || order.user || order.username || "未填寫";
+          const coachName = order.coachName || order.coach || order.trainer || "未填寫";
+          const createdAt = order.createdAt || order.time || order.date || "—";
+          const note = order.note || order.comment || "—";
+          const badgeClass = [
+            "bg-cyan-400/15 text-cyan-100 border-cyan-400/30",
+            "bg-emerald-400/15 text-emerald-100 border-emerald-400/30",
+            "bg-fuchsia-400/15 text-fuchsia-100 border-fuchsia-400/30",
+            "bg-amber-400/15 text-amber-100 border-amber-400/30"
+          ][index % 4];
+
+          return `
+            <tr class="rounded-2xl bg-slate-900/55">
+              <td class="px-3 py-3">
+                <div class="font-medium text-slate-100">${escapeHtml(userName)}</div>
+              </td>
+              <td class="px-3 py-3 text-slate-300">${escapeHtml(coachName)}</td>
+              <td class="px-3 py-3 text-slate-300">${escapeHtml(createdAt)}</td>
+              <td class="px-3 py-3 text-slate-300">${escapeHtml(note)}</td>
+              <td class="px-3 py-3">
+                <span class="badge-glow inline-flex rounded-full border px-2.5 py-1 text-xs font-medium ${badgeClass}">
+                  ${index % 2 === 0 ? "已預約" : "待確認"}
+                </span>
+              </td>
+            </tr>
+          `;
+        });
+
+        coachTableBody.innerHTML = rows.join("");
+        tableLoading.classList.add("hidden");
+        tableWrap.classList.remove("hidden");
+      }
+
+      async function fetchCoaches() {
+        tableLoading.classList.remove("hidden");
+        tableWrap.classList.add("hidden");
+
+        try {
+          const response = await fetch(`${API_URL}?action=read`, { method: "GET" });
+          if (!response.ok) throw new Error(`讀取失敗：${response.status}`);
+
+          const text = await response.text();
+          let payload = [];
+
+          try {
+            const parsed = JSON.parse(text);
+            payload = Array.isArray(parsed) ? parsed : parsed.records ?? parsed.data ?? [];
+          } catch {
+            payload = [];
+          }
+
+          renderCoaches(payload);
+        } catch (error) {
+          tableLoading.classList.add("hidden");
+          tableWrap.classList.remove("hidden");
+          coachTableBody.innerHTML = `
+            <tr>
+              <td colspan="5" class="px-3 py-5 text-center text-rose-300">
+                ${escapeHtml(error.message || "資料讀取錯誤")}
+              </td>
+            </tr>
+          `;
+          showToast("讀取資料時發生錯誤。");
+        }
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const payload = {
+          action: "create",
+          sheet: "orders",
+          userName: formData.get("userName")?.toString().trim(),
+          coachName: formData.get("coachName")?.toString().trim(),
+          note: formData.get("note")?.toString().trim(),
+          createdAt: new Date().toLocaleString("zh-TW")
+        };
+
+        if (!payload.userName || !payload.coachName) {
+          showToast("請填寫使用者名字與教練名字。");
+          return;
+        }
+
+        setLoadingState(true);
+
+        try {
+          const response = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) throw new Error(`寫入失敗：${response.status}`);
+
+          showToast("預約已成功建立。");
+          form.reset();
+          await fetchCoaches();
+        } catch (error) {
+          showToast(error.message || "寫入失敗，請稍後再試。" );
+        } finally {
+          setLoadingState(false);
+        }
+      });
+
+      fetchCoaches();
     </script>
-</body>
+  </body>
 </html>
