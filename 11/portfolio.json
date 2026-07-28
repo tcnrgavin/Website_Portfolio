@@ -1,8 +1,8 @@
 ﻿{
     "id":  "11",
     "studentName":  "呂幸彧",
-    "projectName":  "尚未設定作品名稱",
-    "description":  "這位學員正在努力開發精彩的網頁作品中，敬請期待！",
-    "githubUrl":  "",
-    "isReady":  false
+    "projectName":  "點餐系統",
+    "description":  "全方位反重力懸浮宇宙主題智慧點餐系統，具備無重力視覺質感、毛玻璃特效、即時購物車與管理員菜單管理功能",
+    "githubUrl":  "https://github.com/sandylu66/web14",
+    "isReady":  true
 }
