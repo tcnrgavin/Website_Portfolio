@@ -228,37 +228,72 @@
           </form>
         </div>
 
-        <div class="glass-card table-float rounded-[28px] border border-white/10 p-5 sm:p-6">
-          <div class="mb-4 flex items-center justify-between gap-3">
-            <div>
-              <h2 class="text-xl font-semibold text-slate-50">即時預約清單</h2>
-              <p class="mt-1 text-sm text-slate-400">透過 GET 讀取 orders 資料並動態渲染。</p>
+        <div class="space-y-6">
+          <div class="glass-card table-float rounded-[28px] border border-white/10 p-5 sm:p-6">
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <h2 class="text-xl font-semibold text-slate-50">預約清單</h2>
+                <p class="mt-1 text-sm text-slate-400">顯示目前提交的預約資料。</p>
+              </div>
+              <div class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-cyan-100">
+                ORDERS
+              </div>
             </div>
-            <div class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-cyan-100">
-              GET
+
+            <div id="ordersLoading" class="loader-line rounded-2xl border border-white/10 bg-slate-900/40 p-6">
+              <div class="flex items-center justify-center gap-3 text-slate-300">
+                <div class="spinner"></div>
+                <span class="text-sm tracking-[0.2em] text-slate-200">正在同步預約資料…</span>
+              </div>
+            </div>
+
+            <div id="ordersWrap" class="hidden overflow-x-auto">
+              <table class="min-w-full border-separate border-spacing-y-2 text-left text-sm text-slate-200">
+                <thead>
+                  <tr class="text-slate-400">
+                    <th class="px-3 py-2 font-medium">使用者</th>
+                    <th class="px-3 py-2 font-medium">教練</th>
+                    <th class="px-3 py-2 font-medium">預約時間</th>
+                    <th class="px-3 py-2 font-medium">備註</th>
+                    <th class="px-3 py-2 font-medium">狀態</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTableBody"></tbody>
+              </table>
             </div>
           </div>
 
-          <div id="tableLoading" class="loader-line rounded-2xl border border-white/10 bg-slate-900/40 p-6">
-            <div class="flex items-center justify-center gap-3 text-slate-300">
-              <div class="spinner"></div>
-              <span class="text-sm tracking-[0.2em] text-slate-200">正在同步預約資料…</span>
+          <div class="glass-card rounded-[28px] border border-white/10 p-5 sm:p-6">
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <h2 class="text-xl font-semibold text-slate-50">教練資料</h2>
+                <p class="mt-1 text-sm text-slate-400">讀取 coaches 資料並顯示教練列表。</p>
+              </div>
+              <div class="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-emerald-100">
+                COACHES
+              </div>
             </div>
-          </div>
 
-          <div id="tableWrap" class="hidden overflow-x-auto">
-            <table class="min-w-full border-separate border-spacing-y-2 text-left text-sm text-slate-200">
-              <thead>
-                <tr class="text-slate-400">
-                  <th class="px-3 py-2 font-medium">使用者</th>
-                  <th class="px-3 py-2 font-medium">教練</th>
-                  <th class="px-3 py-2 font-medium">預約時間</th>
-                  <th class="px-3 py-2 font-medium">備註</th>
-                  <th class="px-3 py-2 font-medium">狀態</th>
-                </tr>
-              </thead>
-              <tbody id="coachTableBody"></tbody>
-            </table>
+            <div id="coachesLoading" class="loader-line rounded-2xl border border-white/10 bg-slate-900/40 p-6">
+              <div class="flex items-center justify-center gap-3 text-slate-300">
+                <div class="spinner"></div>
+                <span class="text-sm tracking-[0.2em] text-slate-200">正在同步教練資料…</span>
+              </div>
+            </div>
+
+            <div id="coachesWrap" class="hidden overflow-x-auto">
+              <table class="min-w-full border-separate border-spacing-y-2 text-left text-sm text-slate-200">
+                <thead>
+                  <tr class="text-slate-400">
+                    <th class="px-3 py-2 font-medium">教練姓名</th>
+                    <th class="px-3 py-2 font-medium">專長</th>
+                    <th class="px-3 py-2 font-medium">資歷</th>
+                    <th class="px-3 py-2 font-medium">聯絡</th>
+                  </tr>
+                </thead>
+                <tbody id="coachesTableBody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
@@ -269,15 +304,35 @@
     </div>
 
     <script>
-      const API_URL = "https://script.google.com/macros/s/AKfycbyx-1nXv-aicDKUHZ3qNBs39GutJpecFdTgDRAG8WgO1oWz3ZtYrkfknh-Ylexto6gt/exec";
+      const API_URL = "https://script.google.com/macros/s/AKfycbysyFYV0ow9ZDRb7IFPguV57juaExM0XSY31Emc3Xm2Aka5ZTNfL39qUqCWTa-GuCaj/exec";
 
       const form = document.getElementById("coachForm");
       const submitBtn = document.getElementById("submitBtn");
       const submitBtnText = document.getElementById("submitBtnText");
-      const tableLoading = document.getElementById("tableLoading");
-      const tableWrap = document.getElementById("tableWrap");
-      const coachTableBody = document.getElementById("coachTableBody");
+      const ordersLoading = document.getElementById("ordersLoading");
+      const ordersWrap = document.getElementById("ordersWrap");
+      const ordersTableBody = document.getElementById("ordersTableBody");
+      const coachesLoading = document.getElementById("coachesLoading");
+      const coachesWrap = document.getElementById("coachesWrap");
+      const coachesTableBody = document.getElementById("coachesTableBody");
       const toast = document.getElementById("toast");
+
+      const fallbackOrders = [
+        {
+          userName: "Sample User A",
+          coachName: "Mina Chen",
+          createdAt: "2026-07-28 09:00",
+          note: "暫時替代資料，等 Google Sheet 有資料後會自動更新",
+          status: "已預約"
+        },
+        {
+          userName: "Sample User B",
+          coachName: "Leo Wang",
+          createdAt: "2026-07-28 14:30",
+          note: "示範資料",
+          status: "待確認"
+        }
+      ];
 
       function escapeHtml(value) {
         return String(value ?? "")
@@ -301,20 +356,62 @@
         submitBtn.classList.toggle("opacity-70", isLoading);
       }
 
-      function renderCoaches(data) {
+      function normalizeOrders(raw) {
+        if (!raw || typeof raw !== "string") return [];
+
+        const trimmed = raw.trim();
+        if (!trimmed) return [];
+
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (Array.isArray(parsed)) return parsed;
+          if (parsed && typeof parsed === "object") {
+            return parsed.records ?? parsed.data ?? parsed.orders ?? parsed.items ?? [];
+          }
+        } catch {
+          // ignore and fall back below
+        }
+
+        return [];
+      }
+
+      function renderOrders(data) {
         const records = Array.isArray(data) ? data : data?.records ?? data?.data ?? [];
-        coachTableBody.innerHTML = "";
+        ordersTableBody.innerHTML = "";
 
         if (!records.length) {
-          coachTableBody.innerHTML = `
-            <tr>
-              <td colspan="5" class="px-3 py-5 text-center text-slate-400">
-                還沒有預約，先新增一筆吧。
-              </td>
-            </tr>
-          `;
-          tableLoading.classList.add("hidden");
-          tableWrap.classList.remove("hidden");
+          const fallback = fallbackOrders;
+          const rows = fallback.map((order, index) => {
+            const userName = order.userName || order.user || order.username || "未填寫";
+            const coachName = order.coachName || order.coach || order.trainer || "未填寫";
+            const createdAt = order.createdAt || order.time || order.date || "—";
+            const note = order.note || order.comment || "—";
+            const status = order.status || (index % 2 === 0 ? "已預約" : "待確認");
+            const badgeClass = [
+              "bg-cyan-400/15 text-cyan-100 border-cyan-400/30",
+              "bg-emerald-400/15 text-emerald-100 border-emerald-400/30",
+              "bg-fuchsia-400/15 text-fuchsia-100 border-fuchsia-400/30",
+              "bg-amber-400/15 text-amber-100 border-amber-400/30"
+            ][index % 4];
+
+            return `
+              <tr class="rounded-2xl bg-slate-900/55">
+                <td class="px-3 py-3"><div class="font-medium text-slate-100">${escapeHtml(userName)}</div></td>
+                <td class="px-3 py-3 text-slate-300">${escapeHtml(coachName)}</td>
+                <td class="px-3 py-3 text-slate-300">${escapeHtml(createdAt)}</td>
+                <td class="px-3 py-3 text-slate-300">${escapeHtml(note)}</td>
+                <td class="px-3 py-3">
+                  <span class="badge-glow inline-flex rounded-full border px-2.5 py-1 text-xs font-medium ${badgeClass}">
+                    ${escapeHtml(status)}
+                  </span>
+                </td>
+              </tr>
+            `;
+          });
+
+          ordersTableBody.innerHTML = rows.join("");
+          ordersLoading.classList.add("hidden");
+          ordersWrap.classList.remove("hidden");
           return;
         }
 
@@ -323,6 +420,7 @@
           const coachName = order.coachName || order.coach || order.trainer || "未填寫";
           const createdAt = order.createdAt || order.time || order.date || "—";
           const note = order.note || order.comment || "—";
+          const status = order.status || (index % 2 === 0 ? "已預約" : "待確認");
           const badgeClass = [
             "bg-cyan-400/15 text-cyan-100 border-cyan-400/30",
             "bg-emerald-400/15 text-emerald-100 border-emerald-400/30",
@@ -332,56 +430,104 @@
 
           return `
             <tr class="rounded-2xl bg-slate-900/55">
-              <td class="px-3 py-3">
-                <div class="font-medium text-slate-100">${escapeHtml(userName)}</div>
-              </td>
+              <td class="px-3 py-3"><div class="font-medium text-slate-100">${escapeHtml(userName)}</div></td>
               <td class="px-3 py-3 text-slate-300">${escapeHtml(coachName)}</td>
               <td class="px-3 py-3 text-slate-300">${escapeHtml(createdAt)}</td>
               <td class="px-3 py-3 text-slate-300">${escapeHtml(note)}</td>
               <td class="px-3 py-3">
                 <span class="badge-glow inline-flex rounded-full border px-2.5 py-1 text-xs font-medium ${badgeClass}">
-                  ${index % 2 === 0 ? "已預約" : "待確認"}
+                  ${escapeHtml(status)}
                 </span>
               </td>
             </tr>
           `;
         });
 
-        coachTableBody.innerHTML = rows.join("");
-        tableLoading.classList.add("hidden");
-        tableWrap.classList.remove("hidden");
+        ordersTableBody.innerHTML = rows.join("");
+        ordersLoading.classList.add("hidden");
+        ordersWrap.classList.remove("hidden");
       }
 
-      async function fetchCoaches() {
-        tableLoading.classList.remove("hidden");
-        tableWrap.classList.add("hidden");
+      function renderCoaches(data) {
+        const records = Array.isArray(data) ? data : data?.records ?? data?.data ?? [];
+        coachesTableBody.innerHTML = "";
+
+        if (!records.length) {
+          coachesTableBody.innerHTML = `
+            <tr>
+              <td colspan="4" class="px-3 py-5 text-center text-slate-400">暫時沒有 coaches 資料。</td>
+            </tr>
+          `;
+          coachesLoading.classList.add("hidden");
+          coachesWrap.classList.remove("hidden");
+          return;
+        }
+
+        const rows = records.map((coach) => {
+          const coachName = coach.coachName || coach.name || coach.coach || "未填寫";
+          const specialty = coach.specialty || coach.field || "未填寫";
+          const experience = coach.experience || coach.experienceYears || "未填寫";
+          const contact = coach.contact || coach.email || coach.phone || "未填寫";
+
+          return `
+            <tr class="rounded-2xl bg-slate-900/55">
+              <td class="px-3 py-3"><div class="font-medium text-slate-100">${escapeHtml(coachName)}</div></td>
+              <td class="px-3 py-3 text-slate-300">${escapeHtml(specialty)}</td>
+              <td class="px-3 py-3 text-slate-300">${escapeHtml(experience)}</td>
+              <td class="px-3 py-3 text-slate-300">${escapeHtml(contact)}</td>
+            </tr>
+          `;
+        });
+
+        coachesTableBody.innerHTML = rows.join("");
+        coachesLoading.classList.add("hidden");
+        coachesWrap.classList.remove("hidden");
+      }
+
+      async function fetchOrders() {
+        ordersLoading.classList.remove("hidden");
+        ordersWrap.classList.add("hidden");
 
         try {
-          const response = await fetch(`${API_URL}?action=read`, { method: "GET" });
+          const response = await fetch(`${API_URL}?action=read&sheet=orders`, { method: "GET" });
           if (!response.ok) throw new Error(`讀取失敗：${response.status}`);
 
           const text = await response.text();
-          let payload = [];
-
-          try {
-            const parsed = JSON.parse(text);
-            payload = Array.isArray(parsed) ? parsed : parsed.records ?? parsed.data ?? [];
-          } catch {
-            payload = [];
-          }
-
-          renderCoaches(payload);
+          const payload = normalizeOrders(text);
+          renderOrders(payload.length ? payload : fallbackOrders);
         } catch (error) {
-          tableLoading.classList.add("hidden");
-          tableWrap.classList.remove("hidden");
-          coachTableBody.innerHTML = `
+          ordersLoading.classList.add("hidden");
+          ordersWrap.classList.remove("hidden");
+          ordersTableBody.innerHTML = `
             <tr>
-              <td colspan="5" class="px-3 py-5 text-center text-rose-300">
-                ${escapeHtml(error.message || "資料讀取錯誤")}
-              </td>
+              <td colspan="5" class="px-3 py-5 text-center text-rose-300">${escapeHtml(error.message || "資料讀取錯誤")}</td>
             </tr>
           `;
-          showToast("讀取資料時發生錯誤。");
+          renderOrders(fallbackOrders);
+          showToast("預約資料讀取失敗，已顯示替代資料。" );
+        }
+      }
+
+      async function fetchCoachesData() {
+        coachesLoading.classList.remove("hidden");
+        coachesWrap.classList.add("hidden");
+
+        try {
+          const response = await fetch(`${API_URL}?action=read&sheet=coaches`, { method: "GET" });
+          if (!response.ok) throw new Error(`讀取失敗：${response.status}`);
+
+          const text = await response.text();
+          const payload = normalizeOrders(text);
+          renderCoaches(payload.length ? payload : []);
+        } catch (error) {
+          coachesLoading.classList.add("hidden");
+          coachesWrap.classList.remove("hidden");
+          coachesTableBody.innerHTML = `
+            <tr>
+              <td colspan="4" class="px-3 py-5 text-center text-rose-300">${escapeHtml(error.message || "資料讀取錯誤")}</td>
+            </tr>
+          `;
+          showToast("教練資料讀取失敗。" );
         }
       }
 
@@ -395,7 +541,8 @@
           userName: formData.get("userName")?.toString().trim(),
           coachName: formData.get("coachName")?.toString().trim(),
           note: formData.get("note")?.toString().trim(),
-          createdAt: new Date().toLocaleString("zh-TW")
+          createdAt: new Date().toLocaleString("zh-TW"),
+          status: "待確認"
         };
 
         if (!payload.userName || !payload.coachName) {
@@ -416,7 +563,7 @@
 
           showToast("預約已成功建立。");
           form.reset();
-          await fetchCoaches();
+          await fetchOrders();
         } catch (error) {
           showToast(error.message || "寫入失敗，請稍後再試。" );
         } finally {
@@ -424,7 +571,8 @@
         }
       });
 
-      fetchCoaches();
+      fetchOrders();
+      fetchCoachesData();
     </script>
   </body>
 </html>
