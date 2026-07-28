@@ -1,194 +1,1214 @@
-﻿<!DOCTYPE html>
-<html lang="zh-Hant-TW">
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學員作品集 | Vibe Coding 前端網頁開發班</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <title>
+        反重力懸浮宇宙餐廳智慧點餐系統
+    </title>
+
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
     <style>
-        :root {
-            --bg-color: #0d0f14;
-            --card-bg: rgba(25, 28, 36, 0.6);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --text-primary: #f3f4f6;
-            --text-secondary: #9ca3af;
-            --accent-glow: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        /* =================================
+   反重力漂浮動畫
+================================= */
+
+        @keyframes float-antigravity {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
+
+        .float-card {
+
+            animation:
+                float-antigravity 5s ease-in-out infinite;
+
         }
 
-        body::before {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: var(--accent-glow);
-            filter: blur(150px);
-            opacity: 0.15;
-            top: 20%;
-            left: 30%;
-            z-index: 0;
+
+
+        /* =================================
+   Neon Hover 光暈效果
+================================= */
+
+        .menu-card:hover {
+
+            transform:
+                translateY(-15px) scale(1.03);
+
+            box-shadow:
+                0 0 30px rgba(34, 211, 238, .7),
+                0 0 60px rgba(34, 197, 94, .5);
+
         }
 
-        body::after {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: var(--accent-glow);
-            filter: blur(150px);
-            opacity: 0.15;
-            bottom: 20%;
-            right: 30%;
-            z-index: 0;
-        }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 3rem;
-            border-radius: 24px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
 
-        .badge {
-            display: inline-block;
-            background: var(--accent-glow);
-            color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 99px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            margin: 0 0 1rem 0;
-            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        }
-
-        .student-info {
-            font-size: 1.2rem;
-            color: #818cf8;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-
-        p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
-        }
+        /* =================================
+   Loading 霓虹動畫
+================================= */
 
         .loader {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 2.5rem;
-        }
 
-        .dot {
-            width: 12px;
-            height: 12px;
-            background: var(--accent-glow);
+            width: 50px;
+            height: 50px;
+
             border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
+
+            border:
+                5px solid rgba(255, 255, 255, .2);
+
+            border-top-color: #22d3ee;
+
+            animation:
+                spin 1s linear infinite;
+
         }
 
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
 
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
         }
 
-        .back-btn {
-            display: inline-block;
-            text-decoration: none;
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.03);
-            padding: 0.8rem 2rem;
-            border-radius: 12px;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        /* =================================
+   管理員/表單輸入框樣式 (黑色/深色底)
+================================= */
+        .input-style {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            background-color: #0f172a;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            outline: none;
+            transition: all 0.3s ease;
         }
 
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        .input-style::placeholder {
+            color: #94a3b8;
+        }
+
+        .input-style:focus {
+            background-color: #020617;
+            border-color: #22d3ee;
+            box-shadow: 0 0 12px rgba(34, 211, 238, 0.4);
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <div class="badge">COMING SOON</div>
-        <h1 id="project-title">作品開發中</h1>
-        <div class="student-info" id="student-name">學員：載入中...</div>
-        <p>這位學員正在努力運用所學的前端技術，精心打造個人作品中。敬請期待！</p>
-        
-        <div class="loader">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
 
-        <a href="../index.html" class="back-btn">返回作品展示首頁</a>
+</head>
+
+
+
+<body class="
+bg-slate-950
+text-white
+min-h-screen
+overflow-x-hidden
+">
+
+
+    <!-- ==========================
+背景星雲
+========================== -->
+
+
+    <div class="
+fixed
+w-96
+h-96
+bg-blue-500/30
+rounded-full
+blur-3xl
+top-10
+left-10
+">
     </div>
 
+
+    <div class="
+fixed
+w-96
+h-96
+bg-green-500/20
+rounded-full
+blur-3xl
+bottom-10
+right-10
+">
+    </div>
+
+
+
+
+    <!-- ==========================
+Loading 遮罩
+========================== -->
+
+    <div id="loading" class="
+hidden
+fixed
+inset-0
+bg-black/60
+backdrop-blur
+z-50
+flex
+items-center
+justify-center
+">
+
+        <div class="text-center">
+
+            <div class="loader mx-auto"></div>
+
+            <p class="mt-5 text-cyan-300">
+                宇宙資料同步中...
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+
+    <!-- ==========================
+管理員登入 Modal
+========================== -->
+    <div id="adminLoginModal"
+        class="hidden fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-cyan-500/30 rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl relative">
+            <button id="closeAdminModalBtn"
+                class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">✕</button>
+            <div class="text-center mb-6">
+                <div class="text-4xl mb-2">🔐</div>
+                <h3 class="text-2xl font-bold text-cyan-300">管理員身分驗證</h3>
+                <p class="text-xs text-gray-400 mt-1">請輸入管理帳號與密碼</p>
+            </div>
+            <form id="adminLoginForm" onsubmit="return false;" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">管理員帳號</label>
+                    <input id="adminUsername" type="text" placeholder="請輸入帳號" class="input-style"
+                        autocomplete="username" required>
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">管理員密碼</label>
+                    <input id="adminPassword" type="password" placeholder="請輸入密碼" class="input-style"
+                        autocomplete="current-password" required>
+                </div>
+                <div id="loginErrorMsg" class="hidden text-red-400 text-sm text-center py-1"></div>
+                <div class="flex gap-3 pt-2">
+                    <button type="button" id="cancelAdminLogin"
+                        class="w-1/2 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 transition">
+                        取消
+                    </button>
+                    <button type="submit" id="submitAdminLogin"
+                        class="w-1/2 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition shadow-lg shadow-cyan-500/30">
+                        驗證登入
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- ==========================
+Header
+========================== -->
+
+
+    <header class="
+relative
+z-10
+p-6
+flex
+justify-between
+items-center
+">
+
+
+        <h1 class="
+text-3xl
+font-bold
+text-cyan-300
+drop-shadow-lg
+">
+
+            🚀 反重力懸浮宇宙餐廳
+
+        </h1>
+
+
+
+        <button id="adminToggle" class="
+px-5
+py-3
+rounded-xl
+bg-white/10
+border
+border-white/20
+hover:bg-white/20
+">
+
+            切換為管理員模式
+
+        </button>
+
+
+    </header>
+
+
+
+
+
+
+    <!-- ==========================
+管理員新增表單
+========================== -->
+
+
+    <section id="adminPanel" class="
+hidden
+mx-6
+mb-6
+p-6
+rounded-3xl
+
+bg-white/5
+backdrop-blur-lg
+
+border
+border-white/10
+
+transition-all
+duration-700
+">
+
+
+        <h2 class="text-xl mb-4">
+            🛸 新增宇宙餐點
+        </h2>
+
+
+        <div class="grid md:grid-cols-3 gap-4">
+
+
+            <input id="name" placeholder="餐點名稱" class="input-style">
+
+
+            <input id="category" placeholder="分類" class="input-style">
+
+
+            <input id="price" type="number" placeholder="價格" class="input-style">
+
+
+            <input id="imageUrl" placeholder="圖片網址" class="input-style">
+
+
+            <input id="description" placeholder="餐點描述" class="input-style">
+
+
+            <button id="addBtn" class="
+bg-green-500
+hover:bg-green-400
+text-white
+font-bold
+py-3
+px-4
+rounded-xl
+transition
+duration-300
+shadow-lg
+shadow-green-500/20
+flex
+items-center
+justify-center
+">
+
+                新增餐點
+
+            </button>
+
+
+        </div>
+
+
+    </section>
+
+
+
+
+
+
+
+    <main class="
+relative
+z-10
+grid
+lg:grid-cols-3
+gap-8
+p-6
+">
+
+
+        <!-- ==========================
+菜單區
+========================== -->
+
+
+        <section class="
+lg:col-span-2
+grid
+md:grid-cols-2
+gap-6
+" id="menuList">
+
+        </section>
+
+
+
+
+
+
+        <!-- ==========================
+購物車
+========================== -->
+
+
+        <section class="
+p-6
+rounded-3xl
+
+bg-white/5
+
+backdrop-blur-lg
+
+border
+border-white/10
+
+h-fit
+
+float-card
+
+">
+
+
+            <h2 class="text-2xl mb-5">
+                🛒 我的點餐單
+            </h2>
+
+
+
+            <input id="customerName" placeholder="顧客姓名" class="input-style mb-5">
+
+
+            <div id="cartList">
+
+            </div>
+
+
+            <hr class="my-5 border-white/20">
+
+
+            <p class="text-xl">
+
+                總金額：
+                <span id="totalPrice" class="text-green-400">
+
+                    0
+
+                </span>
+
+                元
+
+            </p>
+
+
+
+            <button id="submitOrder" class="
+mt-5
+w-full
+py-3
+rounded-xl
+bg-cyan-500
+hover:bg-cyan-400
+">
+
+                確認送出點餐
+
+            </button>
+
+
+        </section>
+
+
+    </main>
+
+
+
+
+
+
+
     <script>
-        fetch('./portfolio.json')
-            .then(res => res.json())
-            .then(data => {
-                if (data.studentName) {
-                    document.getElementById('student-name').textContent = "學員：" + data.studentName;
+
+
+        // =====================================
+        // GAS Web API 位置
+        // 請替換成你的 GAS Web App URL
+        // =====================================
+
+
+        const API_URL = "https://script.google.com/macros/s/AKfycbzvIjDqjtPGnCVYuijkuwuFCdHFBpXM2kKVx-D2IdNx-uoDwYKalhw0hRzCUmJfLnclLw/exec";
+
+
+
+        let menuData = [];
+
+        let cart = [];
+
+        let adminMode = false;
+
+
+
+
+
+
+        // =====================================
+        // 初始化
+        // =====================================
+
+
+        window.onload = () => {
+
+            loadMenu();
+
+        };
+
+
+
+
+
+
+
+        // =====================================
+        // Loading 控制
+        // =====================================
+
+
+        function showLoading() {
+
+            document
+                .getElementById("loading")
+                .classList
+                .remove("hidden");
+
+        }
+
+
+        function hideLoading() {
+
+            document
+                .getElementById("loading")
+                .classList
+                .add("hidden");
+
+        }
+
+
+
+
+
+
+
+        // =====================================
+        // 讀取菜單
+        // =====================================
+
+
+        async function loadMenu() {
+
+
+            try {
+
+
+                showLoading();
+
+
+
+                const res =
+                    await fetch(
+                        `${API_URL}?action=read`
+                    );
+
+
+
+                const json =
+                    await res.json();
+
+
+
+                menuData =
+                    json.data || [];
+
+
+
+                renderMenu();
+
+
+
+            }
+            catch (error) {
+
+                alert(
+                    "菜單載入失敗"
+                );
+
+            }
+
+            finally {
+
+                hideLoading();
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+        // =====================================
+        // 渲染菜單
+        // =====================================
+
+
+        function renderMenu() {
+
+
+            const box =
+                document.getElementById("menuList");
+
+            box.textContent = "";
+
+
+
+            menuData.forEach(item => {
+
+
+                const card =
+                    document.createElement("div");
+
+
+                card.className =
+                    `
+menu-card
+float-card
+bg-white/5
+backdrop-blur-lg
+border
+border-white/10
+rounded-3xl
+p-5
+transition
+duration-500
+relative
+`;
+
+
+
+                const menuImgSrc = item.imageUrl || '';
+                const menuFallbackSvg = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'><rect width='100%' height='100%' fill='%231e293b'/><text x='50%' y='50%' fill='%2394a3b8' font-size='16' text-anchor='middle' dominant-baseline='middle'>🍱 暫無餐點圖片</text></svg>`;
+
+                card.innerHTML = `
+
+<img
+src="${menuImgSrc}"
+alt="${item.name}"
+class="
+w-full
+h-48
+object-cover
+rounded-xl
+"
+onerror="this.onerror=null; this.src='${menuFallbackSvg}';">
+
+
+<h3 class="text-xl mt-4">
+
+${item.name}
+
+</h3>
+
+
+<span class="
+text-xs
+bg-cyan-500/30
+px-3
+py-1
+rounded-full
+">
+
+${item.category}
+
+</span>
+
+
+
+<p class="text-gray-300 mt-3">
+
+${item.description}
+
+</p>
+
+
+
+<p class="
+text-green-400
+text-xl
+mt-3
+">
+
+$${item.price}
+
+</p>
+
+
+
+<button
+onclick="addCart(${item.id})"
+
+class="
+mt-3
+w-full
+bg-cyan-500
+rounded-xl
+py-2
+">
+
+加入點餐單
+
+</button>
+
+
+
+`;
+
+
+
+
+                if (adminMode) {
+
+
+                    const del =
+                        document.createElement("button");
+
+
+                    del.textContent = "🗑";
+
+
+                    del.className =
+                        `
+absolute
+top-3
+right-3
+bg-red-500
+rounded-full
+px-3
+`;
+
+
+
+                    del.onclick =
+                        () => deleteMenu(item.id);
+
+
+
+                    card.appendChild(del);
+
+
                 }
-                if (data.projectName && data.isReady) {
-                    document.getElementById('project-title').textContent = data.projectName;
-                }
-            })
-            .catch(() => {
-                const pathParts = window.location.pathname.split('/');
-                const currentFolder = decodeURIComponent(pathParts[pathParts.length - 2] || '');
-                if (currentFolder && currentFolder.includes('_')) {
-                    const name = currentFolder.split('_')[1];
-                    document.getElementById('student-name').textContent = "學員：" + name;
-                } else {
-                    document.getElementById('student-name').textContent = "學員";
-                }
+
+
+
+
+                box.appendChild(card);
+
+
             });
+
+
+        }
+
+
+
+
+
+
+
+
+        // =====================================
+        // 購物車
+        // =====================================
+
+
+        function addCart(id) {
+
+
+            const item =
+                menuData.find(
+                    x => Number(x.id) === Number(id)
+                );
+
+
+
+            const exist =
+                cart.find(
+                    x => x.id == id
+                );
+
+
+
+            if (exist) {
+
+                exist.qty++;
+
+            }
+
+            else {
+
+
+                cart.push({
+
+                    ...item,
+
+                    qty: 1
+
+                });
+
+
+            }
+
+
+            renderCart();
+
+
+        }
+
+
+
+
+
+        function changeQty(id, num) {
+
+
+            const item =
+                cart.find(
+                    x => x.id == id
+                );
+
+
+
+            item.qty += num;
+
+
+
+            if (item.qty <= 0) {
+
+                cart =
+                    cart.filter(
+                        x => x.id != id
+                    );
+
+            }
+
+
+            renderCart();
+
+
+        }
+
+
+
+
+
+
+        function removeCartItem(id) {
+
+            cart = cart.filter(x => x.id != id);
+
+            renderCart();
+
+        }
+
+
+        function renderCart() {
+
+            const box =
+                document.getElementById("cartList");
+
+            box.textContent = "";
+
+            if (cart.length === 0) {
+                box.innerHTML = `<p class="text-center text-gray-400 py-6 text-sm">🛒 點餐單是空的，快選擇餐點吧！</p>`;
+                document.getElementById("totalPrice").textContent = "0";
+                return;
+            }
+
+            let total = 0;
+
+            cart.forEach(item => {
+
+                const subtotal = item.price * item.qty;
+                total += subtotal;
+
+                const div =
+                    document.createElement("div");
+
+                div.className =
+                    "flex items-center gap-3 bg-white/5 border border-white/10 p-3 rounded-2xl mb-3 transition hover:border-white/20 shadow-md";
+
+                const imgSrc = item.imageUrl || '';
+                const fallbackSvg = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%231e293b'/><text x='50%' y='50%' fill='%2394a3b8' font-size='24' text-anchor='middle' dominant-baseline='middle'>🍱</text></svg>`;
+
+                div.innerHTML = `
+                    <img src="${imgSrc}"
+                         alt="${item.name}"
+                         class="w-14 h-14 object-cover rounded-xl border border-white/10 shrink-0 shadow-sm"
+                         onerror="this.onerror=null; this.src='${fallbackSvg}';">
+
+                    <div class="flex-1 min-w-0">
+                        <p class="font-bold text-white text-base truncate" title="${item.name}">${item.name}</p>
+                        <p class="text-xs text-green-400 mt-1">單價: $${item.price} | 小計: <span class="font-semibold">$${subtotal}</span></p>
+                    </div>
+
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button onclick="changeQty(${item.id},-1)" class="w-7 h-7 bg-white/10 hover:bg-white/20 text-cyan-300 font-bold rounded-lg flex items-center justify-center transition border border-white/10">-</button>
+                        <span class="font-bold text-sm min-w-[20px] text-center">${item.qty}</span>
+                        <button onclick="changeQty(${item.id},1)" class="w-7 h-7 bg-white/10 hover:bg-white/20 text-cyan-300 font-bold rounded-lg flex items-center justify-center transition border border-white/10">+</button>
+                        <button onclick="removeCartItem(${item.id})" class="ml-1 px-2.5 py-1.5 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-xl text-xs font-bold transition border border-red-500/30 flex items-center gap-1" title="刪除餐點">
+                            🗑
+                        </button>
+                    </div>
+                `;
+
+                box.appendChild(div);
+
+            });
+
+            document
+                .getElementById("totalPrice")
+                .textContent = total;
+
+        }
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // 下單
+        // =====================================
+
+
+        document
+            .getElementById("submitOrder")
+            .onclick =
+            async () => {
+
+
+                const payload = {
+
+                    action: "order",
+
+                    customerName:
+                        document
+                            .getElementById("customerName")
+                            .value,
+
+
+                    items: cart,
+
+
+                    totalPrice:
+                        cart.reduce(
+                            (a, b) =>
+                                a + b.price * b.qty,
+                            0
+                        )
+
+
+                };
+
+
+
+                try {
+
+
+                    showLoading();
+
+
+                    await fetch(
+                        API_URL,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "text/plain"
+
+                            },
+
+                            body:
+                                JSON.stringify(payload)
+
+                        }
+
+                    );
+
+
+
+                    alert(
+                        "✨ 宇宙餐點傳送成功！"
+                    );
+
+
+
+                    cart = [];
+
+                    renderCart();
+
+
+                }
+                finally {
+
+                    hideLoading();
+
+                }
+
+
+            };
+
+
+
+
+
+
+
+        // =====================================
+        // 管理員模式與登入驗證
+        // =====================================
+
+        function openAdminModal() {
+            loginErrorMsg.classList.add("hidden");
+            loginErrorMsg.textContent = "";
+            adminUsername.value = "";
+            adminPassword.value = "";
+            adminLoginModal.classList.remove("hidden");
+            adminUsername.focus();
+        }
+
+        function closeAdminModal() {
+            adminLoginModal.classList.add("hidden");
+        }
+
+        adminToggle.onclick = () => {
+            if (adminMode) {
+                // 退出管理員模式
+                adminMode = false;
+                adminPanel.classList.add("hidden");
+                adminToggle.textContent = "切換為管理員模式";
+                renderMenu();
+            } else {
+                // 開啟登入彈窗
+                openAdminModal();
+            }
+        };
+
+        closeAdminModalBtn.onclick = closeAdminModal;
+        cancelAdminLogin.onclick = closeAdminModal;
+
+        adminLoginForm.onsubmit = (e) => {
+            e.preventDefault();
+            const username = adminUsername.value.trim();
+            const password = adminPassword.value.trim();
+
+            if (username === "123" && password === "123") {
+                adminMode = true;
+                closeAdminModal();
+                adminPanel.classList.remove("hidden");
+                adminToggle.textContent = "退出管理員模式";
+                renderMenu();
+            } else {
+                loginErrorMsg.textContent = "❌ 帳號或密碼錯誤";
+                loginErrorMsg.classList.remove("hidden");
+            }
+        };
+
+
+
+
+
+
+
+
+        // =====================================
+        // 新增餐點
+        // =====================================
+
+
+        addBtn.onclick =
+            async () => {
+                const nameInput = document.getElementById("name");
+                const categoryInput = document.getElementById("category");
+                const priceInput = document.getElementById("price");
+                const imageUrlInput = document.getElementById("imageUrl");
+                const descriptionInput = document.getElementById("description");
+
+                const dishName = nameInput ? nameInput.value.trim() : "";
+                const dishCategory = categoryInput ? categoryInput.value.trim() : "";
+                const dishPrice = priceInput ? Number(priceInput.value) : 0;
+                const dishDesc = descriptionInput ? descriptionInput.value.trim() : "";
+                const dishImg = imageUrlInput ? imageUrlInput.value.trim() : "";
+
+                if (!dishName) {
+                    alert("請輸入餐點名稱！");
+                    return;
+                }
+
+                const payload = {
+                    action: "add",
+                    name: dishName,
+                    category: dishCategory,
+                    description: dishDesc,
+                    price: isNaN(dishPrice) ? 0 : dishPrice,
+                    imageUrl: dishImg,
+                    status: "上架"
+                };
+
+                try {
+                    showLoading();
+
+                    await fetch(
+                        API_URL,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "text/plain"
+                            },
+                            body: JSON.stringify(payload)
+                        }
+                    );
+
+                    // 新增成功後清空表單
+                    if (nameInput) nameInput.value = "";
+                    if (categoryInput) categoryInput.value = "";
+                    if (priceInput) priceInput.value = "";
+                    if (imageUrlInput) imageUrlInput.value = "";
+                    if (descriptionInput) descriptionInput.value = "";
+
+                    await loadMenu();
+                    alert("✨ 成功新增餐點！");
+                } catch (error) {
+                    console.error("新增餐點失敗:", error);
+                    alert("新增餐點失敗，請確認網路連線！");
+                } finally {
+                    hideLoading();
+                }
+            };
+
+
+
+
+
+
+
+        // =====================================
+        // 刪除餐點
+        // =====================================
+
+
+        async function deleteMenu(id) {
+
+            if (!confirm("確定刪除此餐點？"))
+                return;
+
+            showLoading();
+
+            try {
+                const res = await fetch(
+                    API_URL,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "text/plain"
+                        },
+                        body:
+                            JSON.stringify({
+                                action: "delete",
+                                id: Number(id)
+                            })
+                    }
+                );
+
+                const json = await res.json().catch(() => null);
+                if (json && json.status === "error") {
+                    alert("刪除失敗：" + json.message);
+                } else if (json && json.status === "success") {
+                    alert("✨ 成功自試算表刪除餐點！");
+                }
+            }
+            catch (error) {
+                console.error("刪除請求異常:", error);
+                alert("網路請求失敗");
+            }
+            finally {
+                // 重新載入試算表最新資料
+                await loadMenu();
+                hideLoading();
+            }
+
+        }
+
+
+
     </script>
+
+
 </body>
+
 </html>
