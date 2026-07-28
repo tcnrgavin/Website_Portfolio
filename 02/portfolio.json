@@ -1,8 +1,8 @@
 ﻿{
     "id":  "02",
     "studentName":  "彭彥淳",
-    "projectName":  "尚未設定作品名稱",
-    "description":  "這位學員正在努力開發精彩的網頁作品中，敬請期待！",
-    "githubUrl":  "",
-    "isReady":  false
+    "projectName":  "反重力懸浮宇宙餐廳 - 智慧點餐系統",
+    "description":  "本專案為一個智慧點餐系統，使用者可以透過手機或平板進行點餐，並且可以即時查看餐點的製作進度。系統包含了菜單管理、訂單管理以及支付功能，旨在提升餐廳的服務效率與顧客的用餐體驗。",
+    "githubUrl":  "https://github.com/yanchuen5476/web14",
+    "isReady":  true
 }
